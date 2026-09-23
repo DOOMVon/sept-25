@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>a small question</title>
+  <meta name="description" content="open this when you have a minute.">
+  <meta property="og:title" content="a small question">
+  <meta property="og:description" content="open this when you have a minute.">
+  <meta name="theme-color" content="#EFE5CF">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 30V20' stroke='%235E6238' stroke-width='1.6' fill='none'/%3E%3Cpath d='M16 21C14 15 13.5 9 16 3C18.5 9 18 15 16 21Z' fill='%23FBF7EC' stroke='%235E6238'/%3E%3Cpath d='M16 21C12 17 8 12 6.5 7C10 9 13 14 16 21ZM16 21C20 17 24 12 25.5 7C22 9 19 14 16 21Z' fill='%23FBF7EC' stroke='%235E6238'/%3E%3C/svg%3E">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=EB+Garamond:ital,wght@0,400;1,400&family=IM+Fell+English+SC&family=La+Belle+Aurore&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="locked">
+
+  <!-- shared ornaments -->
+  <svg class="sprite" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="flourish" viewBox="0 0 64 64">
+        <path d="M4 60C4 34 12 14 34 6C44 2.5 54 3 60 6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M9 60C9 46 13 36 21 30C27 26 33 28 32 34C31 39 24 39 24 34C24 31 27 30 28.5 32" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M34 6C40 12 42 18 40 24C35 20 33 13 34 6Z" fill="currentColor" opacity=".75"/>
+        <path d="M4 34C10 32 14 34 16 38C10 40 6 38 4 34Z" fill="currentColor" opacity=".55"/>
+        <circle cx="60" cy="6" r="1.7" fill="currentColor"/>
+        <circle cx="4" cy="60" r="1.7" fill="currentColor"/>
+      </symbol>
+
+      <symbol id="lily-sprig" viewBox="0 0 48 66">
+        <path d="M24 66C24 52 22 42 25 27" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+        <path d="M24 56C16 52 12 46 11 38C18 42 22 48 24 56Z" fill="currentColor" opacity=".7"/>
+        <path d="M24.4 47C31 44 35 38 36 31C30 34 26 40 24.4 47Z" fill="currentColor" opacity=".55"/>
+        <g transform="rotate(10 25 27)" stroke="currentColor" stroke-width=".8" stroke-linejoin="round">
+          <path d="M25 27C23 19 22 11 25 3C28 11 27 19 25 27Z" fill="#ECE7D3"/>
+          <path d="M25 27C21 22 16 15 14 8C13.6 6.6 15 6 16 7.4C19 13 22 20 25 27Z" fill="#FBF7EC"/>
+          <path d="M25 27C29 22 34 15 36 8C36.4 6.6 35 6 34 7.4C31 13 28 20 25 27Z" fill="#FBF7EC"/>
+          <path d="M25 19L23 5M25 19L27.5 5" fill="none" stroke-width=".5"/>
+        </g>
+      </symbol>
+
+      <symbol id="bud-node" viewBox="0 0 16 26">
+        <ellipse class="node-bg" cx="8" cy="13" rx="7.5" ry="12.5"/>
+        <path d="M8 25V17" fill="none" stroke="currentColor" stroke-width="1"/>
+        <path d="M8 18C4 15 4 8 8 2C12 8 12 15 8 18Z" fill="#FBF7EC" stroke="currentColor" stroke-width=".9"/>
+        <path d="M8 16Q9.4 10 8 3.5" fill="none" stroke="currentColor" stroke-width=".5" opacity=".6"/>
+      </symbol>
+
+      <symbol id="wax-node" viewBox="0 0 16 26">
+        <ellipse class="node-bg" cx="8" cy="13" rx="7.5" ry="12.5"/>
+        <path d="M8 6.2C11.6 6 14 8.4 13.8 12.2C13.7 15.8 11.2 18.4 7.8 18.2C4.3 18 2 15.4 2.2 12C2.4 8.6 4.8 6.4 8 6.2Z" fill="#7B3F41"/>
+        <circle cx="8" cy="12.2" r="3.2" fill="none" stroke="#5A2729" stroke-width=".7"/>
+      </symbol>
+
+      <symbol id="rule-orn" viewBox="0 0 48 18">
+        <path d="M17 9C13 6 9 6 5 9C9 12 13 12 17 9Z" fill="currentColor" opacity=".5"/>
+        <path d="M31 9C35 6 39 6 43 9C39 12 35 12 31 9Z" fill="currentColor" opacity=".5"/>
+        <path d="M24 3L28.5 9L24 15L19.5 9Z" fill="none" stroke="currentColor" stroke-width=".9"/>
+        <circle cx="24" cy="9" r="1.4" fill="currentColor"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="paper-grain" aria-hidden="true"></div>
+  <div class="paper-vignette" aria-hidden="true"></div>
+
+  <main class="invite" id="invite">
+    <div class="invite__inner">
+
+      <svg class="crest intro" style="--i:0" viewBox="0 0 120 40" aria-hidden="true">
+        <g class="crest__sway">
+          <g fill="none" stroke="currentColor" stroke-linecap="round">
+            <path d="M60 36C48 37 36 33 28 26C22 21 14 22 13 28C12 33 18 35 20 31" stroke-width="1"/>
+            <path d="M60 36C72 37 84 33 92 26C98 21 106 22 107 28C108 33 102 35 100 31" stroke-width="1"/>
+            <path d="M60 30V37" stroke-width="1.1"/>
+          </g>
+          <path d="M44 35.5C38 31 36 26 37 21C42 25 44 30 44 35.5Z" fill="currentColor" opacity=".7"/>
+          <path d="M76 35.5C82 31 84 26 83 21C78 25 76 30 76 35.5Z" fill="currentColor" opacity=".7"/>
+          <g stroke="currentColor" stroke-width=".8" stroke-linejoin="round">
+            <path d="M60 30C58 22 56.5 14 60 6C63.5 14 62 22 60 30Z" fill="#ECE7D3"/>
+            <path d="M60 30C56 25 50 18 47.5 10C47 8.5 48.5 8 49.5 9.5C53 15 57 22 60 30Z" fill="#FBF7EC"/>
+            <path d="M60 30C64 25 70 18 72.5 10C73 8.5 71.5 8 70.5 9.5C67 15 63 22 60 30Z" fill="#FBF7EC"/>
+            <path d="M60 22L58 7.5M60 22L62 7.5" fill="none" stroke-width=".5"/>
+          </g>
+          <circle cx="58" cy="7" r=".9" fill="#935540"/>
+          <circle cx="62" cy="7" r=".9" fill="#935540"/>
+        </g>
+      </svg>
+
+      <figure class="portrait intro" id="portrait" style="--i:1">
+        <svg class="flourish flourish--tl" aria-hidden="true"><use href="#flourish"/></svg>
+        <svg class="flourish flourish--tr" aria-hidden="true"><use href="#flourish"/></svg>
+        <svg class="flourish flourish--bl" aria-hidden="true"><use href="#flourish"/></svg>
+        <svg class="flourish flourish--br" aria-hidden="true"><use href="#flourish"/></svg>
+
+        <svg class="postmark" viewBox="0 0 120 120" aria-hidden="true">
+          <defs>
+            <path id="pm-ring" d="M60 60m-42 0a42 42 0 1 1 84 0a42 42 0 1 1-84 0"/>
+          </defs>
+          <g fill="none" stroke="currentColor">
+            <circle cx="60" cy="60" r="52" stroke-width="1.6"/>
+            <circle cx="60" cy="60" r="32" stroke-width=".8"/>
+            <path d="M-38 48q6-5 12 0t12 0t12 0t12 0M-38 60q6-5 12 0t12 0t12 0t12 0M-38 72q6-5 12 0t12 0t12 0t12 0" stroke-width="1.2"/>
+          </g>
+          <text class="postmark__ring"><textPath href="#pm-ring" textLength="256" lengthAdjust="spacing">surabaya ✶ jawa timur ✶ indonesia ✶</textPath></text>
+          <text class="postmark__date" x="60" y="60" text-anchor="middle">25 ix</text>
+          <text class="postmark__year" x="60" y="74" text-anchor="middle">2026</text>
+        </svg>
+
+        <div class="portrait__mat">
+
+          <img id="heroImg" alt="the two of us" decoding="async">
+          <div class="portrait__empty">
+            <span>your photo goes here</span>
+            <code>images/our-photo.jpg</code>
+          </div>
+        </div>
+      </figure>
+
+      <h1 class="question intro" style="--i:2">hey, let's go on a date?</h1>
+
+      <div class="choices intro" style="--i:3">
+        <button class="btn-yes" id="yes" type="button">yes</button>
+        <span class="or" id="or" aria-hidden="true">or</span>
+        <button class="btn-no" id="no" type="button" tabindex="-1" aria-hidden="true">no</button>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="stage" id="stage" hidden aria-hidden="true"></div>
+  <div class="edge-frame" id="edgeFrame" hidden aria-hidden="true"></div>
+  <p class="whisper" id="whisper" aria-hidden="true">good answer.</p>
+
+  <section class="letter" id="letter" hidden>
+    <article class="card" id="card">
+
+      <svg class="seal" id="seal" viewBox="0 0 100 100" aria-hidden="true">
+        <defs>
+          <radialGradient id="wax" cx="36%" cy="30%" r="78%">
+            <stop offset="0" stop-color="#9C5557"/>
+            <stop offset=".55" stop-color="#7B3F41"/>
+            <stop offset="1" stop-color="#5C2A2D"/>
+          </radialGradient>
+        </defs>
+        <path id="sealEdge" d="M50 6A44 44 0 1 1 49.9 6Z" fill="url(#wax)"/>
+        <circle cx="50" cy="50" r="31" fill="none" stroke="#56252A" stroke-width="2.2" opacity=".75"/>
+        <circle cx="49.2" cy="49.2" r="31" fill="none" stroke="#B06A68" stroke-width=".8" opacity=".55"/>
+        <g transform="translate(50 63)" fill="#65302F" stroke="#A95F5E" stroke-width=".6" stroke-linejoin="round">
+          <path d="M0 0C-2-8-2.5-16 0-24C2.5-16 2-8 0 0Z"/>
+          <path d="M0 0C-4-5-9-12-11-19C-11.4-20.4-10-21-9-19.6C-6-13-3-7 0 0Z"/>
+          <path d="M0 0C4-5 9-12 11-19C11.4-20.4 10-21 9-19.6C6-13 3-7 0 0Z"/>
+          <path d="M0 0V7" fill="none"/>
+        </g>
+      </svg>
+
+      <svg class="card__corner card__corner--tl" aria-hidden="true"><use href="#lily-sprig"/></svg>
+      <svg class="card__corner card__corner--br" aria-hidden="true"><use href="#lily-sprig"/></svg>
+
+      <header class="card__head">
+        <p class="card__note">the plan, roughly</p>
+        <p class="card__day">25</p>
+        <p class="card__month">september</p>
+        <p class="card__weekday">a friday</p>
+      </header>
+
+      <div class="rule" aria-hidden="true"><svg><use href="#rule-orn"/></svg></div>
+
+      <ol class="timeline">
+        <li class="stop ink">
+          <div class="stop__time"><span class="t">14:00</span></div>
+          <div class="stop__node" aria-hidden="true"><svg><use href="#bud-node"/></svg></div>
+          <div class="stop__body">
+            <h2>pick up</h2>
+            <p>I'll pick you up DISIDUARJOO.</p>
+          </div>
+        </li>
+
+        <li class="stop ink">
+          <div class="stop__time"><span class="t">14:30</span><span class="until">until 18:00</span></div>
+          <div class="stop__node" aria-hidden="true"><svg><use href="#bud-node"/></svg></div>
+          <div class="stop__body">
+            <h2>board game date</h2>
+            <p>Games, snacks, talking, and mavin winstreakk.</p>
+            <span class="margin-note">(i'm going to win)</span>
+          </div>
+        </li>
+
+        <li class="stop ink">
+          <div class="stop__time"><span class="t">18:00</span><span class="until">until 18:30</span></div>
+          <div class="stop__node" aria-hidden="true"><svg><use href="#bud-node"/></svg></div>
+          <div class="stop__body">
+            <h2>moving to the next spot</h2>
+            <p>A little transition before the evening.</p>
+          </div>
+        </li>
+
+        <li class="stop ink">
+          <div class="stop__time"><span class="t">18:30</span><span class="until">until 19:30</span></div>
+          <div class="stop__node" aria-hidden="true"><svg><use href="#bud-node"/></svg></div>
+          <div class="stop__body">
+            <h2>café time</h2>
+            <p>Something to drink, slow down, and just hanging out.</p>
+          </div>
+        </li>
+
+        <li class="stop ink">
+          <div class="stop__time"><span class="t">19:30</span><span class="until">until 20:00</span></div>
+          <div class="stop__node" aria-hidden="true"><svg><use href="#bud-node"/></svg></div>
+          <div class="stop__body">
+            <h2>photobooth</h2>
+            <p>We take some pictures. No retakes. We live with whatever comes out.</p>
+          </div>
+        </li>
+
+        <li class="stop stop--evening ink">
+          <div class="stop__time"><span class="t">20:00</span><span class="until">onwards</span></div>
+          <div class="stop__node" aria-hidden="true"><svg><use href="#wax-node"/></svg></div>
+          <div class="stop__body">
+            <h2>evening plans</h2>
+            <p>I have something planned.</p>
+            <svg class="scribble" viewBox="0 0 150 22" aria-hidden="true">
+              <path d="M2 13C8 3 14 3 16 11S22 20 28 11S36 2 42 11S50 20 56 10S64 3 70 12S80 19 86 10S96 4 100 12S110 18 116 9S126 4 130 12S140 18 147 10"/>
+              <path d="M4 9C30 15 60 6 90 12S130 7 148 13"/>
+            </svg>
+            <p>You'll find out when we get there.</p>
+          </div>
+        </li>
+      </ol>
+    </article>
+
+    <footer class="closing">
+      <p class="closing__line ink">see you on the 25th <span class="closing__heart">♡</span></p>
+      <p class="closing__hand ink">don't be late.</p>
+      <svg class="closing__lily ink" aria-hidden="true"><use href="#lily-sprig"/></svg>
+      <button class="again ink" id="again" type="button">ask me again</button>
+    </footer>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
