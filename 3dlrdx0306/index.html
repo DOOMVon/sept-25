@@ -54,7 +54,6 @@
       background: radial-gradient(130% 100% at 50% 42%, rgba(80, 56, 32, 0) 58%, rgba(80, 56, 32, .13) 88%, rgba(70, 48, 26, .22) 100%);
     }
 
-    /* ---------------- scene ---------------- */
     .scene {
       position: relative; z-index: 2;
       min-height: 100vh; min-height: 100svh;
@@ -89,7 +88,6 @@
     }
     .again[hidden] { display: none; }
 
-    /* ---------------- bouquet ---------------- */
     .bouquet {
       position: relative;
       width: min(92vw, 520px, calc((100vh - 9rem) * .684));
@@ -156,7 +154,6 @@
     .edge polygon { fill: none; stroke: rgba(140, 70, 85, .4); stroke-width: 1.4; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
     .face--in .edge polygon, .panel .edge polygon { stroke: rgba(120, 100, 80, .3); }
 
-    /* handwriting on the inside of the wrapper */
     .scrawl {
       position: absolute;
       font-family: var(--f-hand); font-weight: 600; line-height: 1;
@@ -180,12 +177,10 @@
     .doodle--2 { left: 88%; top: 73%; --r: 12deg; width: 4.6cqw; transition-delay: 3.1s; }
     .doodle--3 { left: 83%; top: 81%; --r: -8deg; width: 3.4cqw; transition-delay: 3.25s; }
 
-    /* stems sit inside the cone while it's wrapped, then on top of the paper once it opens */
     .stems { position: absolute; inset: 0; z-index: 2; transition: z-index 0s linear .75s; }
     .is-open .stems { z-index: 5; }
     .stems svg { width: 100%; height: 100%; display: block; overflow: visible; }
 
-    /* paper-cutout blooms */
     .sticker {
       position: absolute; z-index: 6;
       aspect-ratio: 1;
@@ -204,7 +199,6 @@
     @keyframes bob { from { transform: rotate(-1.6deg); } to { transform: rotate(1.8deg) translateY(-1px); } }
     @keyframes spring { 0% { scale: 1; } 35% { scale: 1.07; } 70% { scale: .98; } 100% { scale: 1; } }
 
-    /* ---------------- the note that flies out ---------------- */
     .note {
       position: fixed; left: 0; top: 0; z-index: 40;
       width: 9.5rem; height: 6.4rem;
@@ -221,7 +215,6 @@
     }
     .note svg { position: absolute; top: 34%; left: 50%; width: 1.7rem; transform: translate(-50%, -50%); }
 
-    /* ---------------- reader ---------------- */
     .reader {
       position: fixed; inset: 0; z-index: 50;
       overflow-y: auto; overscroll-behavior: contain;
@@ -318,7 +311,6 @@
 </head>
 <body>
 
-  <!-- sticker look: wobbly hand-cut edge, white border, pink rim, paper texture -->
   <svg class="defs" aria-hidden="true" focusable="false">
     <defs>
       <filter id="cutout" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
@@ -427,7 +419,6 @@
         </div>
       </div>
 
-      <!-- blooms are drawn by the script below -->
     </div>
 
     <p class="hint" id="hint">tap to open</p>
@@ -460,8 +451,7 @@
 
       <p>I love you. Here's to our second year, and many more after that.</p>
 
-      <!-- change the name here if she calls you something else -->
-      <p class="sheet__sign">yours,<br><b>Joj</b></p>
+      <p class="sheet__sign">looove,<br><b>mavinn</b></p>
     </article>
 
     <button class="fold" id="fold" type="button">fold it back</button>
@@ -484,9 +474,6 @@
       }
       const rand = seeded(26);
 
-      /* ======================= drawing ======================= */
-
-      // Lily (stargazer style): six recurved tepals, spots, long stamens
       function lily(P, kind) {
         const pal = kind === "white"
           ? { grad: "g-lily-white", line: "#8F8C62", rib: "#B8B287", spot: null, curl: "#FFFFFF", anther: "#C8641F" }
@@ -570,8 +557,6 @@
         `<path d="M0 0C${f(W)} ${f(-L * .25)} ${f(W * .7 + bend)} ${f(-L * .72)} ${f(bend * 1.4)} ${f(-L)}C${f(-W * .7 + bend)} ${f(-L * .72)} ${f(-W)} ${f(-L * .25)} 0 0Z" fill="url(#g-leaf)" stroke="#44662A" stroke-width="1.4" stroke-linejoin="round"/>` +
         `<path d="M0 ${f(-L * .05)}Q${f(bend * .5)} ${f(-L * .5)} ${f(bend * 1.25)} ${f(-L * .92)}" fill="none" stroke="#44662A" stroke-width="1" opacity=".55"/></g>`;
 
-      /* ======================= the arrangement ======================= */
-      // design space is 520 x 760; the bow gathers the stems at G
       const G = { x: 260, y: 585 };
 
       const heads = [
@@ -655,7 +640,6 @@
       buildStems();
       buildBlooms();
 
-      /* ======================= interaction ======================= */
       const bouquet = $("#bouquet");
       const reader = $("#reader");
       const note = $("#note");
