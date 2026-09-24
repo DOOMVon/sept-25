@@ -1,0 +1,725 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#EFE5CF">
+  <title>for you</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 28c-6-4-11-8-11-14a5.5 5.5 0 0 1 11-2 5.5 5.5 0 0 1 11 2c0 6-5 10-11 14z' fill='%23E48AA3' stroke='%23B02E57'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600&family=Cormorant+Garamond:ital,wght@1,400&display=swap">
+
+  <style>
+    :root {
+      --paper: #EFE5CF;
+      --ink: #3A2A1F;
+      --pen: #4A3462;
+      --pen-pink: #BF4A6D;
+      --wrap: #EDC5CB;
+      --lh: 2.1rem;
+      --f-hand: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+      --f-serif: "Cormorant Garamond", Garamond, Georgia, serif;
+      --ease: cubic-bezier(.2, .7, .2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh; min-height: 100svh;
+      color: var(--ink);
+      font-family: var(--f-serif);
+      overflow-x: hidden;
+      background-color: var(--paper);
+      background-image:
+        radial-gradient(120% 80% at 18% 6%, rgba(255, 251, 240, .7), rgba(255, 251, 240, 0) 60%),
+        radial-gradient(90% 70% at 92% 100%, rgba(176, 148, 100, .16), rgba(176, 148, 100, 0) 65%),
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000'%3E%3Cfilter id='m'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.005' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .52 0 0 0 0 .41 0 0 0 0 .26 .9 0 0 0 -.42'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23m)'/%3E%3C/svg%3E");
+      background-size: 100% 100%, 100% 100%, cover;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
+    body.is-reading { overflow: hidden; }
+
+    .defs { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+    .grain {
+      position: fixed; inset: 0; z-index: 90; pointer-events: none; opacity: .45;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .24 0 0 0 0 .17 0 0 0 0 .1 1.3 0 0 0 -.62'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    }
+    .vignette {
+      position: fixed; inset: 0; z-index: 1; pointer-events: none;
+      background: radial-gradient(130% 100% at 50% 42%, rgba(80, 56, 32, 0) 58%, rgba(80, 56, 32, .13) 88%, rgba(70, 48, 26, .22) 100%);
+    }
+
+    /* ---------------- scene ---------------- */
+    .scene {
+      position: relative; z-index: 2;
+      min-height: 100vh; min-height: 100svh;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 1.2rem 1rem 1.6rem;
+      text-align: center;
+    }
+    .for-you {
+      margin: 0 0 .2rem;
+      font-family: var(--f-hand); font-weight: 500; font-size: 1.9rem;
+      color: var(--pen-pink);
+      transform: rotate(-4deg);
+      animation: rise 1.2s var(--ease) both .1s;
+    }
+    .hint {
+      margin: .6rem 0 0; min-height: 1.6rem;
+      font-family: var(--f-serif); font-style: italic; font-size: 1.1rem;
+      color: #8A7766;
+      transition: opacity .5s var(--ease);
+      animation: rise 1.2s var(--ease) both .5s, breathe 2.8s ease-in-out 2s infinite;
+    }
+    .is-open ~ .hint { opacity: 0; animation: none; }
+    @keyframes rise { from { opacity: 0; translate: 0 14px; } to { opacity: 1; translate: 0 0; } }
+    @keyframes breathe { 50% { opacity: .45; } }
+
+    .again {
+      margin-top: .4rem;
+      appearance: none; background: none; border: 0; cursor: pointer;
+      padding: .5rem .9rem;
+      font-family: var(--f-hand); font-size: 1.45rem; color: var(--pen-pink);
+      text-decoration: underline; text-decoration-color: rgba(191, 74, 109, .35); text-underline-offset: 5px;
+    }
+    .again[hidden] { display: none; }
+
+    /* ---------------- bouquet ---------------- */
+    .bouquet {
+      position: relative;
+      width: min(92vw, 520px, calc((100vh - 9rem) * .684));
+      aspect-ratio: 520 / 760;
+      container-type: inline-size;
+      cursor: pointer;
+      outline: none;
+      -webkit-tap-highlight-color: transparent;
+      animation: rise 1.4s var(--ease) both .25s;
+    }
+    @supports (height: 1svh) {
+      .bouquet { width: min(92vw, 520px, calc((100svh - 9rem) * .684)); }
+    }
+    .bouquet:focus-visible::after {
+      content: ""; position: absolute; inset: -8px; border: 1px dashed rgba(191, 74, 109, .5); border-radius: 8px;
+    }
+    .bouquet.is-open { cursor: default; }
+
+    .ground {
+      position: absolute; left: 50%; bottom: -2%;
+      width: 34%; height: 4%;
+      transform: translateX(-50%);
+      background: radial-gradient(closest-side, rgba(70, 45, 30, .28), rgba(70, 45, 30, 0));
+    }
+
+    /* the wrapping paper: a kite, folded into a cone */
+    .panel, .face { position: absolute; inset: 0; }
+    .panel {
+      z-index: 1;
+      clip-path: polygon(36% 34%, 64% 34%, 50% 100%);
+      background: linear-gradient(90deg, #E7DECB, #FFFDF7 30%, #FFFDF7 70%, #E7DECB);
+    }
+    .flap {
+      position: absolute; inset: 0;
+      transform-style: preserve-3d;
+      transform-origin: 50% 100%;
+      transition: transform 1.3s cubic-bezier(.5, .05, .2, 1);
+    }
+    .flap--left  { z-index: 3; transform: perspective(1800px) rotate3d(72.8, 501.6, 0, var(--a, -180deg)); }
+    .flap--right { z-index: 4; transform: perspective(1800px) rotate3d(-72.8, 501.6, 0, var(--a, 180deg)); }
+    .is-open .flap--left  { --a: 0deg; }
+    .is-open .flap--right { --a: 0deg; transition-delay: .2s; }
+
+    .face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    .face--in { background: #FFFDF7; }
+    .flap--left .face--in {
+      clip-path: polygon(0% 44%, 36% 34%, 50% 100%);
+      background: linear-gradient(100deg, #FFFDF7 45%, #ECE3D2 100%);
+    }
+    .flap--right .face--in {
+      clip-path: polygon(64% 34%, 100% 44%, 50% 100%);
+      background: linear-gradient(-100deg, #FFFDF7 45%, #ECE3D2 100%);
+    }
+    .face--out {
+      transform: rotateY(180deg);
+      background:
+        repeating-linear-gradient(45deg, rgba(255, 255, 255, .22) 0 2px, rgba(255, 255, 255, 0) 2px 10px),
+        linear-gradient(160deg, #F2D2D7, var(--wrap) 55%, #DFAFB7);
+    }
+    .flap--left .face--out  { clip-path: polygon(100% 44%, 64% 34%, 50% 100%); }
+    .flap--right .face--out { clip-path: polygon(36% 34%, 0% 44%, 50% 100%); }
+
+    .edge { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+    .edge polygon { fill: none; stroke: rgba(140, 70, 85, .4); stroke-width: 1.4; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+    .face--in .edge polygon, .panel .edge polygon { stroke: rgba(120, 100, 80, .3); }
+
+    /* handwriting on the inside of the wrapper */
+    .scrawl {
+      position: absolute;
+      font-family: var(--f-hand); font-weight: 600; line-height: 1;
+      color: var(--pen);
+      white-space: nowrap;
+      transform: translate(-50%, -50%) rotate(var(--r));
+      clip-path: inset(-20% 100% -20% 0);
+      transition: clip-path 1.6s var(--ease) 1.5s;
+    }
+    .is-open .scrawl { clip-path: inset(-20% -5% -20% 0); }
+    .scrawl--l { left: 27.5%; top: 65%; --r: 58.6deg; font-size: 5.6cqw; line-height: 1.08; text-align: center; }
+    .scrawl--r { left: 76.5%; top: 59%; --r: -58.6deg; font-size: 7.4cqw; color: var(--pen-pink); }
+    .scrawl--r small { display: block; margin-top: .2em; font-size: .5em; color: var(--pen); text-align: center; }
+    .doodle {
+      position: absolute; width: 6cqw; color: var(--pen-pink);
+      opacity: 0; transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(.4);
+      transition: opacity .5s var(--ease), transform .7s cubic-bezier(.34, 1.56, .64, 1);
+    }
+    .is-open .doodle { opacity: .85; transform: translate(-50%, -50%) rotate(var(--r, 0deg)) scale(1); }
+    .doodle--1 { left: 13%; top: 76%; --r: -14deg; transition-delay: 2.9s; }
+    .doodle--2 { left: 88%; top: 73%; --r: 12deg; width: 4.6cqw; transition-delay: 3.1s; }
+    .doodle--3 { left: 83%; top: 81%; --r: -8deg; width: 3.4cqw; transition-delay: 3.25s; }
+
+    /* stems sit inside the cone while it's wrapped, then on top of the paper once it opens */
+    .stems { position: absolute; inset: 0; z-index: 2; transition: z-index 0s linear .75s; }
+    .is-open .stems { z-index: 5; }
+    .stems svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+    /* paper-cutout blooms */
+    .sticker {
+      position: absolute; z-index: 6;
+      aspect-ratio: 1;
+      transform: translate(-50%, -50%) rotate(var(--rot, 0deg));
+      pointer-events: none;
+    }
+    .sticker .bob {
+      width: 100%; height: 100%;
+      transform-origin: 50% 70%;
+      animation: bob var(--sd, 7s) ease-in-out var(--sdl, 0s) infinite alternate;
+      will-change: transform;
+    }
+    .sticker svg { width: 100%; height: 100%; display: block; overflow: visible; }
+    .sticker--bow { z-index: 7; }
+    .is-open .sticker { animation: spring .9s cubic-bezier(.34, 1.56, .64, 1) both; animation-delay: var(--sp, 0s); }
+    @keyframes bob { from { transform: rotate(-1.6deg); } to { transform: rotate(1.8deg) translateY(-1px); } }
+    @keyframes spring { 0% { scale: 1; } 35% { scale: 1.07; } 70% { scale: .98; } 100% { scale: 1; } }
+
+    /* ---------------- the note that flies out ---------------- */
+    .note {
+      position: fixed; left: 0; top: 0; z-index: 40;
+      width: 9.5rem; height: 6.4rem;
+      pointer-events: none; opacity: 0;
+      background: linear-gradient(180deg, #FFFCF3 0 49.5%, #F1E8D6 50%, #FFFCF3 56%);
+      box-shadow: 0 10px 22px -12px rgba(58, 42, 31, .55);
+      border-radius: 2px;
+      display: grid; place-items: center;
+    }
+    .note[hidden] { display: none; }
+    .note span {
+      font-family: var(--f-hand); font-size: 1.35rem; color: var(--pen);
+      transform: rotate(-4deg) translateY(.9rem);
+    }
+    .note svg { position: absolute; top: 34%; left: 50%; width: 1.7rem; transform: translate(-50%, -50%); }
+
+    /* ---------------- reader ---------------- */
+    .reader {
+      position: fixed; inset: 0; z-index: 50;
+      overflow-y: auto; overscroll-behavior: contain;
+      -webkit-overflow-scrolling: touch;
+      background: rgba(239, 229, 207, .9);
+      opacity: 0;
+      transition: opacity .6s var(--ease);
+    }
+    @supports (backdrop-filter: blur(4px)) {
+      .reader { background: rgba(239, 229, 207, .78); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+    }
+    .reader[hidden] { display: none; }
+    .reader.is-shown { opacity: 1; }
+
+    .reader__close {
+      position: fixed; top: max(.8rem, env(safe-area-inset-top)); right: .9rem; z-index: 2;
+      width: 2.6rem; height: 2.6rem; border-radius: 50%;
+      appearance: none; border: 0; cursor: pointer;
+      background: rgba(255, 252, 243, .85);
+      box-shadow: 0 4px 12px -6px rgba(58, 42, 31, .5);
+      font-family: var(--f-hand); font-size: 1.6rem; line-height: 1; color: var(--pen);
+    }
+
+    .sheet {
+      --pad-x: clamp(1.4rem, 6vw, 3.2rem);
+      --margin-x: clamp(2.4rem, 8vw, 4.2rem);
+      position: relative;
+      width: min(100% - 2rem, 36rem);
+      margin: clamp(3.6rem, 9vh, 5.5rem) auto 1.5rem;
+      padding: calc(var(--lh) * 2) var(--pad-x) calc(var(--lh) * 2) var(--margin-x);
+      background-color: #FFFCF2;
+      background-image:
+        linear-gradient(90deg, transparent calc(var(--margin-x) - .7rem), rgba(214, 118, 140, .5) calc(var(--margin-x) - .7rem), rgba(214, 118, 140, .5) calc(var(--margin-x) - .7rem + 1px), transparent calc(var(--margin-x) - .7rem + 1px)),
+        repeating-linear-gradient(180deg, transparent 0, transparent calc(var(--lh) - 1px), rgba(118, 150, 190, .3) calc(var(--lh) - 1px), rgba(118, 150, 190, .3) var(--lh));
+      box-shadow: 0 1px 0 rgba(255, 255, 255, .8) inset, 0 28px 50px -30px rgba(58, 42, 31, .55), 0 8px 18px -12px rgba(58, 42, 31, .3);
+      outline: none;
+      font-family: var(--f-hand);
+      font-size: 1.42rem;
+      line-height: var(--lh);
+      color: var(--pen);
+      transform: rotate(-.4deg);
+    }
+    .reader.is-shown .sheet { animation: unfold 1.4s cubic-bezier(.3, .1, .2, 1) both .15s; }
+    @keyframes unfold {
+      0%   { clip-path: inset(0 0 78% 0); opacity: 0; translate: 0 18px; }
+      18%  { opacity: 1; }
+      100% { clip-path: inset(0 0 0 0); opacity: 1; translate: 0 0; }
+    }
+    .sheet::before, .sheet::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 14px; pointer-events: none;
+      background: linear-gradient(180deg, rgba(120, 90, 60, 0), rgba(120, 90, 60, .08) 50%, rgba(120, 90, 60, 0));
+      mix-blend-mode: multiply;
+    }
+    .sheet::before { top: 33.3%; }
+    .sheet::after  { top: 66.6%; }
+
+    .sheet p { margin: 0 0 var(--lh); }
+    .sheet__title {
+      margin: 0 0 var(--lh);
+      font-weight: 600; font-size: 2.1rem; line-height: var(--lh);
+      color: var(--pen-pink);
+    }
+    .sheet__sign { margin: 0 !important; text-align: right; }
+    .sheet__sign b { font-weight: 600; color: var(--pen-pink); }
+
+    .tape {
+      position: absolute; top: -.9rem; width: 5.6rem; height: 1.8rem;
+      background: rgba(233, 176, 190, .55);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, .06);
+      clip-path: polygon(3% 0, 97% 4%, 100% 50%, 96% 100%, 2% 96%, 0 50%);
+    }
+    .tape--l { left: 1.2rem; transform: rotate(-6deg); }
+    .tape--r { right: 1.2rem; transform: rotate(5deg); background: rgba(176, 196, 150, .55); }
+
+    .fold {
+      display: block; margin: 0 auto calc(2.5rem + env(safe-area-inset-bottom));
+      appearance: none; background: none; border: 0; cursor: pointer; padding: .6rem 1rem;
+      font-family: var(--f-hand); font-size: 1.5rem; color: var(--pen-pink);
+      text-decoration: underline; text-decoration-color: rgba(191, 74, 109, .35); text-underline-offset: 5px;
+    }
+
+    @media (max-width: 480px) {
+      :root { --lh: 1.95rem; }
+      .sheet { font-size: 1.32rem; }
+      .sheet__title { font-size: 1.85rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .sticker .bob, .hint, .is-open .sticker { animation: none; }
+      .flap, .scrawl, .doodle { transition-duration: .3s; transition-delay: 0s; }
+      .reader.is-shown .sheet { animation: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- sticker look: wobbly hand-cut edge, white border, pink rim, paper texture -->
+  <svg class="defs" aria-hidden="true" focusable="false">
+    <defs>
+      <filter id="cutout" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+        <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="4" result="wobble"/>
+        <feDisplacementMap in="SourceGraphic" in2="wobble" scale="3.2" xChannelSelector="R" yChannelSelector="G" result="art"/>
+        <feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="8" result="tooth"/>
+        <feColorMatrix in="tooth" values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 -1.4 .8" result="toothA"/>
+        <feComposite in="toothA" in2="art" operator="in" result="texture"/>
+        <feMorphology in="art" operator="dilate" radius="6.2" result="fat"/>
+        <feFlood flood-color="#E6A2B4"/>
+        <feComposite in2="fat" operator="in" result="rim"/>
+        <feMorphology in="art" operator="dilate" radius="4.8" result="mid"/>
+        <feFlood flood-color="#FFFDF8"/>
+        <feComposite in2="mid" operator="in" result="border"/>
+        <feGaussianBlur in="fat" stdDeviation="3"/>
+        <feOffset dy="3.5" result="blur"/>
+        <feFlood flood-color="#4A2E24" flood-opacity=".24"/>
+        <feComposite in2="blur" operator="in" result="shadow"/>
+        <feMerge>
+          <feMergeNode in="shadow"/>
+          <feMergeNode in="rim"/>
+          <feMergeNode in="border"/>
+          <feMergeNode in="art"/>
+          <feMergeNode in="texture"/>
+        </feMerge>
+      </filter>
+
+      <linearGradient id="g-lily-pink" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#C8345F"/>
+        <stop offset=".3" stop-color="#E4668F"/>
+        <stop offset=".68" stop-color="#F5B2C5"/>
+        <stop offset="1" stop-color="#FFF1F5"/>
+      </linearGradient>
+      <linearGradient id="g-lily-white" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#CBDA9C"/>
+        <stop offset=".28" stop-color="#F4F2DC"/>
+        <stop offset="1" stop-color="#FFFFFF"/>
+      </linearGradient>
+      <linearGradient id="g-tulip" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#DE6F8A"/>
+        <stop offset="1" stop-color="#F9C8D3"/>
+      </linearGradient>
+      <linearGradient id="g-tulip-back" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#C95574"/>
+        <stop offset="1" stop-color="#EE9EB2"/>
+      </linearGradient>
+      <linearGradient id="g-leaf" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#5E8A3C"/>
+        <stop offset="1" stop-color="#9DBD6C"/>
+      </linearGradient>
+      <linearGradient id="g-bud" x1="0" y1="1" x2="0" y2="0">
+        <stop offset="0" stop-color="#9CBF6A"/>
+        <stop offset=".45" stop-color="#E7A3B6"/>
+        <stop offset="1" stop-color="#F6CFD9"/>
+      </linearGradient>
+      <radialGradient id="g-blue" cx="50%" cy="50%" r="60%">
+        <stop offset="0" stop-color="#5E86C8"/>
+        <stop offset="1" stop-color="#A8C3EC"/>
+      </radialGradient>
+      <linearGradient id="g-bow" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#F7C6D2"/>
+        <stop offset="1" stop-color="#E890A8"/>
+      </linearGradient>
+
+      <symbol id="heart" viewBox="0 0 32 30">
+        <path d="M16 28C9 23 3 18 3.5 11A6.5 6.5 0 0 1 16 8a6.5 6.5 0 0 1 12.5 3C29 18 23 23 16 28Z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <main class="scene">
+    <p class="for-you">for you</p>
+
+    <div class="bouquet" id="bouquet" role="button" tabindex="0" aria-label="Open the wrapping and read the letter">
+      <div class="ground"></div>
+
+      <div class="panel">
+        <svg class="edge" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="36,34 64,34 50,100"/></svg>
+      </div>
+
+      <div class="stems" id="stems"></div>
+
+      <div class="flap flap--left">
+        <div class="face face--in">
+          <svg class="edge" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="0,44 36,34 50,100"/></svg>
+          <span class="scrawl scrawl--l">happy first<br>anniversary!!!</span>
+          <svg class="doodle doodle--1"><use href="#heart"/></svg>
+        </div>
+        <div class="face face--out">
+          <svg class="edge" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="100,44 64,34 50,100"/></svg>
+        </div>
+      </div>
+
+      <div class="flap flap--right">
+        <div class="face face--in">
+          <svg class="edge" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="64,34 100,44 50,100"/></svg>
+          <span class="scrawl scrawl--r">i love you<small>(a lot)</small></span>
+          <svg class="doodle doodle--2"><use href="#heart"/></svg>
+          <svg class="doodle doodle--3"><use href="#heart"/></svg>
+        </div>
+        <div class="face face--out">
+          <svg class="edge" viewBox="0 0 100 100" preserveAspectRatio="none"><polygon points="36,34 0,44 50,100"/></svg>
+        </div>
+      </div>
+
+      <!-- blooms are drawn by the script below -->
+    </div>
+
+    <p class="hint" id="hint">tap to open</p>
+    <button class="again" id="again" type="button" hidden>read the letter again</button>
+  </main>
+
+  <div class="note" id="note" hidden aria-hidden="true">
+    <svg viewBox="0 0 32 30"><path d="M16 28C9 23 3 18 3.5 11A6.5 6.5 0 0 1 16 8a6.5 6.5 0 0 1 12.5 3C29 18 23 23 16 28Z" fill="#D9607F"/></svg>
+    <span>for you</span>
+  </div>
+
+  <div class="reader" id="reader" role="dialog" aria-modal="true" aria-label="Letter" hidden>
+    <button class="reader__close" id="close" type="button" aria-label="Close the letter">&times;</button>
+
+    <article class="sheet" id="sheet" tabindex="-1">
+      <span class="tape tape--l" aria-hidden="true"></span>
+      <span class="tape tape--r" aria-hidden="true"></span>
+
+      <h1 class="sheet__title">Happy first anniversary!!!</h1>
+
+      <p>I still think about how we met at 3C. Honestly, I didn't expect anything to happen back then. I was still carrying a lot (lol), and I didn't think I was ready for anyone. Then somehow we started hanging out almost every day, and without me noticing, you became the person I wanted to see the most.</p>
+
+      <p>I don't know if I've ever told you this properly, but being with you feels light. Around you I don't feel like I'm carrying a burden anymore. I started actually enjoying my life again, and a big part of that is because of you.</p>
+
+      <p>I remember buying matching socks at McD, staying up late at BM Coffee, falling asleep in your car, going to the gym together, and making TikToks. They're all small things, but they're the ones that stuck with me. Those are the moments I think about when I think about us.</p>
+
+      <p>I know this year wasn't perfect. I know I'm not always the boyfriend you deserve, and there are things I need to work on, like being more present, communicating better, or even being more understanding. I'm not writing this to make excuses. I'm writing it because I want you to know I see it, and I want to do better for you.</p>
+
+      <p>Thank you for staying, for being patient with me, and for making this year one of the best parts of my life.</p>
+
+      <p>I love you. Here's to our second year, and many more after that.</p>
+
+      <!-- change the name here if she calls you something else -->
+      <p class="sheet__sign">yours,<br><b>Joj</b></p>
+    </article>
+
+    <button class="fold" id="fold" type="button">fold it back</button>
+  </div>
+
+  <script>
+    (() => {
+      const $ = (s) => document.querySelector(s);
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const BOX = { w: 520, h: 760 };
+      const f = (n) => Math.round(n * 100) / 100;
+
+      function seeded(seed) {
+        return () => {
+          seed = (seed + 0x6d2b79f5) | 0;
+          let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+          t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+      const rand = seeded(26);
+
+      /* ======================= drawing ======================= */
+
+      // Lily (stargazer style): six recurved tepals, spots, long stamens
+      function lily(P, kind) {
+        const pal = kind === "white"
+          ? { grad: "g-lily-white", line: "#8F8C62", rib: "#B8B287", spot: null, curl: "#FFFFFF", anther: "#C8641F" }
+          : { grad: "g-lily-pink", line: "#B02E57", rib: "#A32450", spot: "#8E1E43", curl: "#FAD7E0", anther: "#7C2E18" };
+
+        const tepal = (angle, W, b) => {
+          const tip = `${f(-W * .1 + b)} ${f(-P * .97)}`;
+          let s = `<g transform="rotate(${f(angle)})">`;
+          s += `<path d="M0 0C${f(W * .9)} ${f(-P * .2)} ${f(W * 1.05 + b * .3)} ${f(-P * .62)} ${f(W * .32 + b)} ${f(-P * .9)}Q${f(W * .1 + b)} ${f(-P * 1.02)} ${tip}C${f(-W * .8 + b * .3)} ${f(-P * .68)} ${f(-W * .95)} ${f(-P * .24)} 0 0Z" fill="url(#${pal.grad})" stroke="${pal.line}" stroke-width="1.5" stroke-linejoin="round"/>`;
+          s += `<path d="M${f(W * .32 + b)} ${f(-P * .9)}Q${f(W * .62 + b)} ${f(-P * .97)} ${f(W * .4 + b)} ${f(-P * 1.05)}Q${f(W * .12 + b)} ${f(-P * 1.09)} ${tip}Q${f(W * .1 + b)} ${f(-P * 1.02)} ${f(W * .32 + b)} ${f(-P * .9)}Z" fill="${pal.curl}" stroke="${pal.line}" stroke-width="1.2" stroke-linejoin="round"/>`;
+          s += `<path d="M0 ${f(-P * .05)}Q${f(W * .06 + b * .3)} ${f(-P * .5)} ${f(W * .2 + b * .85)} ${f(-P * .86)}" fill="none" stroke="${pal.rib}" stroke-width="1.3" stroke-linecap="round" opacity=".75"/>`;
+          s += `<path d="M0 0C${f(W * .16)} ${f(-P * .1)} ${f(W * .1)} ${f(-P * .3)} 0 ${f(-P * .34)}C${f(-W * .1)} ${f(-P * .3)} ${f(-W * .16)} ${f(-P * .1)} 0 0Z" fill="#BFD48A" opacity=".75"/>`;
+          if (pal.spot) {
+            for (let i = 0; i < 9; i++) {
+              const t = .14 + rand() * .42;
+              const x = (rand() - .5) * W * 1.1 * (1 - t * .6);
+              const rx = 1 + rand() * 1.3;
+              s += `<ellipse cx="${f(x)}" cy="${f(-P * t)}" rx="${f(rx)}" ry="${f(rx * (1.3 + rand() * .6))}" fill="${pal.spot}" opacity=".8"/>`;
+            }
+          }
+          return s + "</g>";
+        };
+
+        let s = `<g transform="scale(1 .9)">`;
+        [0, 120, 240].forEach((a) => { s += tepal(a + rand() * 10 - 5, P * .23, (rand() - .5) * P * .14); });
+        [60, 180, 300].forEach((a) => { s += tepal(a + rand() * 10 - 5, P * .3, (rand() - .5) * P * .12); });
+        for (let i = 0; i < 6; i++) {
+          const a = i * 60 + 30 + rand() * 16 - 8;
+          const L = P * (.55 + rand() * .12);
+          const c = (rand() - .5) * P * .12;
+          s += `<g transform="rotate(${f(a)})"><path d="M0 0Q${f(c)} ${f(-L * .55)} ${f(c * .6)} ${f(-L)}" fill="none" stroke="#C9D99A" stroke-width="1.8" stroke-linecap="round"/>` +
+               `<ellipse cx="${f(c * .6)}" cy="${f(-L)}" rx="${f(P * .03)}" ry="${f(P * .085)}" transform="rotate(${f(75 + rand() * 30)} ${f(c * .6)} ${f(-L)})" fill="${pal.anther}"/></g>`;
+        }
+        s += `<path d="M0 0Q5 ${f(-P * .3)} 2 ${f(-P * .64)}" fill="none" stroke="#98B466" stroke-width="2.6" stroke-linecap="round"/>`;
+        s += `<circle cx="2" cy="${f(-P * .66)}" r="${f(P * .05)}" fill="#89A55A" stroke="#5E7D3A" stroke-width="1"/>`;
+        return s + "</g>";
+      }
+
+      function lilyBud(L) {
+        const W = L * .2;
+        return `<path d="M0 ${f(L * .5)}C${f(W * .5)} ${f(L * .3)} ${f(W)} ${f(-L * .05)} ${f(W * .45)} ${f(-L * .42)}Q0 ${f(-L * .56)} ${f(-W * .45)} ${f(-L * .42)}C${f(-W)} ${f(-L * .05)} ${f(-W * .5)} ${f(L * .3)} 0 ${f(L * .5)}Z" fill="url(#g-bud)" stroke="#9C3A5A" stroke-width="1.4" stroke-linejoin="round"/>` +
+               `<path d="M0 ${f(L * .36)}Q${f(W * .22)} 0 0 ${f(-L * .46)}M${f(-W * .4)} ${f(L * .1)}Q${f(-W * .25)} ${f(-L * .2)} ${f(-W * .1)} ${f(-L * .38)}" fill="none" stroke="#B85476" stroke-width="1" opacity=".7"/>`;
+      }
+
+      function tulip(s) {
+        const p = (d) => d.replace(/-?\d+(\.\d+)?/g, (n) => f(+n * s));
+        return `<g stroke="#B6486A" stroke-width="1.5" stroke-linejoin="round">` +
+          `<path d="${p("M-16 26C-26 6-22-18-4-30C14-20 24 4 16 26Z")}" fill="url(#g-tulip-back)"/>` +
+          `<path d="${p("M-22 24C-30 2-24-22-9-32C-6-14-3 6 2 28C-7 31-16 30-22 24Z")}" fill="url(#g-tulip)"/>` +
+          `<path d="${p("M22 24C30 2 24-22 9-32C6-14 3 6-2 28C7 31 16 30 22 24Z")}" fill="url(#g-tulip)"/>` +
+          `<path d="${p("M-14 27C-20 6-14-18 0-27C14-18 20 6 14 27C6 32-6 32-14 27Z")}" fill="url(#g-tulip)"/>` +
+          `<path d="${p("M-5 22Q-7 0-2-18M5 22Q7 2 3-16")}" fill="none" stroke="#F7D5DD" stroke-width="1.2" opacity=".9"/>` +
+          `</g>`;
+      }
+
+      function blueBloom(r) {
+        let s = "";
+        for (let i = 0; i < 5; i++) {
+          s += `<ellipse cx="0" cy="${f(-r * .55)}" rx="${f(r * .36)}" ry="${f(r * .52)}" transform="rotate(${i * 72})" fill="url(#g-blue)" stroke="#44659F" stroke-width="1.3"/>`;
+        }
+        s += `<circle r="${f(r * .22)}" fill="#F3CB4E" stroke="#C98A22" stroke-width="1.2"/>`;
+        for (let i = 0; i < 5; i++) {
+          s += `<path d="M0 ${f(-r * .28)}L0 ${f(-r * .7)}" transform="rotate(${i * 72})" stroke="#E7F0FB" stroke-width="1" opacity=".8"/>`;
+        }
+        return s;
+      }
+
+      function bow() {
+        return `<g stroke="#C4557A" stroke-width="1.8" stroke-linejoin="round" fill="url(#g-bow)">` +
+          `<path d="M-6 6C-22 34-30 60-40 88L-28 82-22 94C-12 64-6 34 0 10Z"/>` +
+          `<path d="M6 6C22 34 32 60 44 86L32 81 27 93C16 62 8 34 0 10Z"/>` +
+          `<path d="M-6-2C-30-34-78-40-84-10C-88 14-54 20-8 6Z"/>` +
+          `<path d="M6-2C30-34 78-40 84-10C88 14 54 20 8 6Z"/>` +
+          `<path d="M-60-12Q-40-6-16 0M60-12Q40-6 16 0" fill="none" stroke="#D66E8F" stroke-width="1.2" opacity=".8"/>` +
+          `<rect x="-11" y="-9" width="22" height="20" rx="7"/>` +
+          `</g>`;
+      }
+
+      const leaf = (x, y, angle, L, W, bend = 0) =>
+        `<g transform="translate(${f(x)} ${f(y)}) rotate(${f(angle)})">` +
+        `<path d="M0 0C${f(W)} ${f(-L * .25)} ${f(W * .7 + bend)} ${f(-L * .72)} ${f(bend * 1.4)} ${f(-L)}C${f(-W * .7 + bend)} ${f(-L * .72)} ${f(-W)} ${f(-L * .25)} 0 0Z" fill="url(#g-leaf)" stroke="#44662A" stroke-width="1.4" stroke-linejoin="round"/>` +
+        `<path d="M0 ${f(-L * .05)}Q${f(bend * .5)} ${f(-L * .5)} ${f(bend * 1.25)} ${f(-L * .92)}" fill="none" stroke="#44662A" stroke-width="1" opacity=".55"/></g>`;
+
+      /* ======================= the arrangement ======================= */
+      // design space is 520 x 760; the bow gathers the stems at G
+      const G = { x: 260, y: 585 };
+
+      const heads = [
+        { kind: "bud",   x: 294, y: 92,  size: .95, rot: 10 },
+        { kind: "tulip", x: 130, y: 178, size: 1.05, rot: -24 },
+        { kind: "tulip", x: 84,  y: 252, size: .92, rot: -40 },
+        { kind: "tulip", x: 440, y: 262, size: .92, rot: 34 },
+        { kind: "blue",  x: 404, y: 200, size: .72, rot: 0 },
+        { kind: "blue",  x: 318, y: 312, size: .8,  rot: 20 },
+        { kind: "lily",  x: 356, y: 236, size: .9,  rot: 16, tone: "pink" },
+        { kind: "lily",  x: 170, y: 290, size: .82, rot: -22, tone: "white" },
+        { kind: "lily",  x: 238, y: 168, size: 1,   rot: -10, tone: "pink" },
+      ];
+      const lavender = [
+        { x: 318, y: 58 }, { x: 372, y: 96 }, { x: 414, y: 150 },
+      ];
+
+      function buildStems() {
+        let s = `<svg viewBox="0 0 520 760" aria-hidden="true"><g filter="url(#cutout)">`;
+        const stem = (x, y, i) => {
+          const bx = 246 + (i % 5) * 7;
+          const cx = x * .55 + G.x * .45 + (x < G.x ? -10 : 10);
+          const d = `M${f(x)} ${f(y)}Q${f(cx)} ${f((y + G.y) / 2)} ${f(G.x + (bx - 260) * .3)} ${G.y}L${bx} 712`;
+          return `<path d="${d}" fill="none" stroke="#44662A" stroke-width="5.4" stroke-linecap="round"/>` +
+                 `<path d="${d}" fill="none" stroke="#83AA58" stroke-width="3" stroke-linecap="round"/>`;
+        };
+        const tips = [...heads, ...lavender];
+        tips.forEach((h, i) => { s += stem(h.x, h.y, i); });
+
+        s += leaf(150, 318, -128, 118, 17, -8);
+        s += leaf(118, 352, -104, 96, 14, 6);
+        s += leaf(392, 320, -44, 112, 16, 8);
+        s += leaf(420, 360, -70, 84, 13, -6);
+        s += leaf(230, 420, -150, 96, 15, -6);
+        s += leaf(292, 430, -24, 100, 15, 6);
+        s += leaf(252, 520, -168, 80, 13, 0);
+        s += leaf(270, 515, -8, 84, 13, 0);
+
+        lavender.forEach((t) => {
+          const dx = G.x - t.x, dy = G.y - t.y;
+          const len = Math.hypot(dx, dy);
+          const ux = dx / len, uy = dy / len;
+          const ang = Math.atan2(uy, ux) * 180 / Math.PI;
+          for (let k = 0; k < 15; k++) {
+            const d = k * 8.5;
+            const side = k % 2 ? 1 : -1;
+            const px = t.x + ux * d - uy * side * 4.5;
+            const py = t.y + uy * d + ux * side * 4.5;
+            const sz = 1 - (15 - k) * .025;
+            s += `<ellipse cx="${f(px)}" cy="${f(py)}" rx="${f(4.8 * sz)}" ry="${f(7 * sz)}" transform="rotate(${f(ang + 90 + side * 30)} ${f(px)} ${f(py)})" fill="${k % 3 ? "#9C88D0" : "#7E69BC"}" stroke="#5B4898" stroke-width="1.1"/>`;
+          }
+        });
+        s += `</g></svg>`;
+        $("#stems").innerHTML = s;
+      }
+
+      function addSticker(inner, x, y, width, rot, cls = "", spring = 0) {
+        const el = document.createElement("div");
+        el.className = `sticker ${cls}`;
+        el.style.left = `${f(x / BOX.w * 100)}%`;
+        el.style.top = `${f(y / BOX.h * 100)}%`;
+        el.style.width = `${f(width / BOX.w * 100)}%`;
+        el.style.setProperty("--rot", `${rot}deg`);
+        el.style.setProperty("--sp", `${spring}s`);
+        el.innerHTML = `<div class="bob" style="--sd:${f(5.5 + rand() * 3)}s;--sdl:${f(-rand() * 6)}s">` +
+          `<svg viewBox="-130 -130 260 260" aria-hidden="true"><g filter="url(#cutout)">${inner}</g></svg></div>`;
+        $("#bouquet").appendChild(el);
+      }
+
+      function buildBlooms() {
+        heads.forEach((h, i) => {
+          const spring = .15 + i * .06;
+          if (h.kind === "lily") addSticker(lily(100, h.tone), h.x, h.y, 260 * h.size * .95, h.rot, "", spring);
+          if (h.kind === "tulip") addSticker(tulip(1.7), h.x, h.y, 260 * h.size * .6, h.rot, "", spring);
+          if (h.kind === "blue") addSticker(blueBloom(34), h.x, h.y, 260 * h.size * .5, h.rot, "", spring);
+          if (h.kind === "bud") addSticker(lilyBud(110), h.x, h.y, 260 * h.size * .55, h.rot, "", spring);
+        });
+        addSticker(bow(), G.x, G.y + 6, 190, -4, "sticker--bow", .1);
+      }
+
+      buildStems();
+      buildBlooms();
+
+      /* ======================= interaction ======================= */
+      const bouquet = $("#bouquet");
+      const reader = $("#reader");
+      const note = $("#note");
+      const again = $("#again");
+      let opened = false;
+
+      function unwrap() {
+        if (opened) return;
+        opened = true;
+        bouquet.classList.add("is-open");
+        bouquet.removeAttribute("role");
+        bouquet.removeAttribute("tabindex");
+        bouquet.setAttribute("aria-label", "Bouquet");
+        setTimeout(flyNote, reduce ? 300 : 3900);
+      }
+
+      // a folded note slips out of the bouquet and becomes the letter
+      function flyNote() {
+        if (reduce) return openReader();
+        const r = bouquet.getBoundingClientRect();
+        const sx = r.left + r.width / 2, sy = r.top + r.height * .62;
+        const ex = innerWidth / 2, ey = innerHeight * .42;
+        note.hidden = false;
+        const anim = note.animate([
+          { transform: `translate(${sx}px, ${sy}px) translate(-50%, -50%) scale(.2) rotate(-14deg)`, opacity: 0 },
+          { transform: `translate(${sx}px, ${sy - r.height * .35}px) translate(-50%, -50%) scale(.7) rotate(-8deg)`, opacity: 1, offset: .45 },
+          { transform: `translate(${ex}px, ${ey}px) translate(-50%, -50%) scale(1.25) rotate(-3deg)`, opacity: 1 },
+        ], { duration: 1300, easing: "cubic-bezier(.3,.1,.2,1)", fill: "forwards" });
+        anim.onfinish = () => {
+          openReader();
+          note.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 450, fill: "forwards" }).onfinish = () => {
+            anim.cancel();
+            note.hidden = true;
+          };
+        };
+      }
+
+      function openReader() {
+        document.body.classList.add("is-reading");
+        reader.hidden = false;
+        reader.scrollTop = 0;
+        requestAnimationFrame(() => reader.classList.add("is-shown"));
+        $("#sheet").focus({ preventScroll: true });
+      }
+
+      function closeReader() {
+        reader.classList.remove("is-shown");
+        setTimeout(() => {
+          reader.hidden = true;
+          document.body.classList.remove("is-reading");
+          again.hidden = false;
+          again.focus({ preventScroll: true });
+        }, 600);
+      }
+
+      bouquet.addEventListener("click", unwrap);
+      bouquet.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); unwrap(); }
+      });
+      $("#close").addEventListener("click", closeReader);
+      $("#fold").addEventListener("click", closeReader);
+      document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !reader.hidden) closeReader(); });
+      again.addEventListener("click", () => { again.hidden = true; openReader(); });
+    })();
+  </script>
+</body>
+</html>
